@@ -1,0 +1,27 @@
+#Imorting the url opener library, sames as before
+
+import urllib2
+import sys
+
+#I found a nice little python library that lets you split a string with two different deliemers; shout out to Google
+
+import re
+
+#The website said you had to solve a captcha 1024 times, so why not script it
+
+while True:
+
+    #Opens up the link the .read() allows you to mess with the source code, also the only difference between a solved
+    #captcha and an unsolved catptcha was the ending, so I was able to find the capthca in the source code and paste it
+    #into the link throughout the while loop
+    
+    walled_garden = urllib2.urlopen("http://ctf.slothparadise.com/walled_garden.php?name=jramhax&captcha=").read()
+    the_split = re.split('<pre>|</pre>',walled_garden)
+    walled_garden_link = urllib2.urlopen("http://ctf.slothparadise.com/walled_garden.php?name=jramhax&captcha="+the_spli
+t[1]).read()
+
+    #All the keys start with, "KEY" so alls I hads to dos was search for that and stop when I found it!
+    
+    if "KEY" in walled_garden_link:
+        print(walled_garden_link)
+        sys.exit(0)
